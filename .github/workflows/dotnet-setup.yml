@@ -1,7 +1,3 @@
-name: .NET Setup on macOS
-
-on: [push, pull_request]
-
 jobs:
   experiment:
     runs-on: macos-14
@@ -10,12 +6,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      # Cleanup any existing .NET SDK installations
+      - name: Clean existing .NET SDKs
+        run: |
+          rm -rf /usr/local/share/dotnet
+          rm -rf /Users/runner/.dotnet
+
       - name: Check current .NET info
         run: |
           dotnet --info || true
           which dotnet || true
 
-      - name: Set up .NET
+      - name: Set up .NET SDK 6.0
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '6.0'
@@ -24,3 +26,4 @@ jobs:
         run: |
           dotnet --info || true
           which dotnet || true
+
