@@ -1,0 +1,26 @@
+name: .NET Setup on macOS
+
+on: [push, pull_request]
+
+jobs:
+  experiment:
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Check current .NET info
+        run: |
+          dotnet --info || true
+          which dotnet || true
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '6.0'
+
+      - name: Check .NET info after setup
+        run: |
+          dotnet --info || true
+          which dotnet || true
