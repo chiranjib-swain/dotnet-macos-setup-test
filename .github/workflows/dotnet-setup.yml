@@ -1,3 +1,7 @@
+name: .NET Setup on macOS
+
+on: [push, pull_request]
+
 jobs:
   experiment:
     runs-on: macos-14
