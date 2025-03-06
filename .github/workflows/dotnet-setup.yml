@@ -19,7 +19,7 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '6.0'
-          cache: true  # Enable caching for NuGet packages
+          # cache: true  # Enable caching for NuGet packages
 
       - name: Restore NuGet packages with locked mode
         run: |
