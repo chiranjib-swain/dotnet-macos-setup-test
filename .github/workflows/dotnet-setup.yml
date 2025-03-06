@@ -4,53 +4,31 @@ on:
   [push, pull_request]
 
 jobs:
-  macos-experiment:
+  experiment:
     runs-on: macos-14
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
 
-      - name: Install bash (if missing)
+      - name: Check current .NET info
         run: |
-          which bash || brew install bash
-
-      - name: Set custom install directory for .NET SDK
-        run: |
-          # Set your custom SDK install directory
-          export CUSTOM_DOTNET_INSTALL_DIR="/Users/runner/my_custom_sdk_path"
-          echo "Using custom SDK path: $CUSTOM_DOTNET_INSTALL_DIR"
-        env:
-          CUSTOM_DOTNET_INSTALL_DIR: "/Users/runner/my_custom_sdk_path"
-
-      - name: Set up .NET SDK on macOS using dotnet-version
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '6.0.x'  # Specify the desired .NET SDK version
-          # cache: true
-
-      - name: Add custom SDK path to environment variables
-        run: |
-          echo "Adding custom SDK path to environment variables"
-          echo "CUSTOM_DOTNET_INSTALL_DIR=${{ env.CUSTOM_DOTNET_INSTALL_DIR }}" >> $GITHUB_ENV
-          echo "PATH=${{ env.CUSTOM_DOTNET_INSTALL_DIR }}:$PATH" >> $GITHUB_ENV
-
-      - name: Check .NET SDK version from custom path
-        run: |
-          echo "Checking .NET SDK version from custom SDK path..."
-          
-          # Temporarily add your custom SDK path to the PATH for this session
-          export PATH=$CUSTOM_DOTNET_INSTALL_DIR:$PATH
-          
-          # Check if the dotnet version is being picked up from the custom path
-          dotnet --info || true  # This will show the .NET version info
-          
-          # Display where the dotnet executable is located to confirm it's from the custom path
-          echo "dotnet executable location (should be in custom path):"
-          which dotnet || true
-
-      - name: Check .NET SDK version from default path (for comparison)
-        run: |
-          echo "Checking .NET version from the default SDK path..."
           dotnet --info || true
           which dotnet || true
+
+      - name: Set up .NET SDK 6.0
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '6.0'
+
+      # Set the DOTNET_ROOT to point to the .NET SDK location
+      - name: Set DOTNET_ROOT
+        run: |
+          export DOTNET_ROOT=/Users/runner/.dotnet
+          echo "DOTNET_ROOT is set to $DOTNET_ROOT"
+
+      - name: Check .NET info after setup
+        run: |
+          dotnet --info || true
+          which dotnet || true
+
