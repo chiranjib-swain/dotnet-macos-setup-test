@@ -16,11 +16,11 @@ jobs:
           dotnet --info || true
           which dotnet || true
 
-      - name: Set up .NET SDK on macOS using global.json
+      - name: Set up .NET SDK on macOS using dotnet-version
         uses: actions/setup-dotnet@v4
         with:
-          global-json-file: './global.json'  # Ensure the path to global.json is correct
-  
+          dotnet-version: '6.0.x'  # Specify the desired .NET SDK version here
+          cache: true
 
       - name: Check .NET info after setup on macOS
         run: |
