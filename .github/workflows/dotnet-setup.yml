@@ -13,6 +13,7 @@ jobs:
 
       - name: Set custom install directory for .NET SDK
         run: |
+          # Set the custom SDK install path
           export DOTNET_INSTALL_DIR="/Users/runner/.dotnet/custom_sdk_path"
           echo "Custom SDK path: $DOTNET_INSTALL_DIR"
         env:
@@ -32,21 +33,14 @@ jobs:
         env:
           DOTNET_INSTALL_DIR: ${{ env.DOTNET_INSTALL_DIR }}  # Pass the custom install directory
 
-      - name: Check .NET info after setup on macOS (custom path + root path)
+      - name: Check .NET info from the custom SDK path
         run: |
-          echo "Checking .NET version from both custom install path and root install path..."
-          # Temporarily add the custom SDK directory to PATH before running dotnet
+          echo "Checking .NET SDK installed at the custom path: $DOTNET_INSTALL_DIR"
+          
+          # Temporarily add the custom SDK path to PATH
           export PATH=$DOTNET_INSTALL_DIR:$PATH
           
-          # Check .NET info from both custom install path and root install path
-          dotnet --info || true  # Check installed .NET version
-          
-          # Show which dotnet executable is being used (custom or root path)
-          echo "dotnet executable location (should show custom or root path):"
-          which dotnet || true
-
-          # Check custom SDK path directly
-          echo "Checking .NET info from custom SDK path..."
-          export PATH=$DOTNET_INSTALL_DIR:$PATH
-          dotnet --info || true
-          which dotnet || true
+          # Verify the .NET version and installation from the custom SDK path
+          dotnet --info || true  # This will check the installed .NET version
+          echo "Checking which dotnet executable is being used from custom SDK path..."
+          which dotnet || true  # This will show where the dotnet executable is located
