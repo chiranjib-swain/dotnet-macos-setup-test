@@ -20,7 +20,7 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           global-json-file: './global.json'  # Ensure the path to global.json is correct
-          cache: true
+  
 
       - name: Check .NET info after setup on macOS
         run: |
