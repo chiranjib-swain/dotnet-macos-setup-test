@@ -18,10 +18,10 @@ jobs:
       - name: Set custom install directory for .NET SDK
         run: |
           # Set your custom SDK install directory
-          export CUSTOM_DOTNET_INSTALL_DIR="/Users/runner/.dotnet/my_custom_sdk_path"
+          export CUSTOM_DOTNET_INSTALL_DIR="/Users/runner/my_custom_sdk_path"
           echo "Using custom SDK path: $CUSTOM_DOTNET_INSTALL_DIR"
         env:
-          CUSTOM_DOTNET_INSTALL_DIR: "/Users/runner/.dotnet/my_custom_sdk_path"
+          CUSTOM_DOTNET_INSTALL_DIR: "/Users/runner/my_custom_sdk_path"
 
       - name: Set up .NET SDK on macOS using dotnet-version
         uses: actions/setup-dotnet@v4
