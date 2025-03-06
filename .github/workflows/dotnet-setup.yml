@@ -1,7 +1,6 @@
-name: .NET Setup on macOS and Ubuntu
+name: .NET Setup on macOS
 
-on: 
-  [push, pull_request]
+on: [push, pull_request]
 
 jobs:
   experiment:
@@ -16,19 +15,18 @@ jobs:
           dotnet --info || true
           which dotnet || true
 
-      - name: Set up .NET SDK 6.0
+      - name: Set up .NET SDK
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '6.0'
+          cache: true  # Enable caching for NuGet packages
 
-      # Set the DOTNET_ROOT to point to the .NET SDK location
-      - name: Set DOTNET_ROOT
+      - name: Restore NuGet packages with locked mode
         run: |
-          export DOTNET_ROOT=/Users/runner/.dotnet
-          echo "DOTNET_ROOT is set to $DOTNET_ROOT"
+          echo "Restoring NuGet packages..."
+          dotnet restore --locked-mode  # Restore packages in locked mode
 
       - name: Check .NET info after setup
         run: |
           dotnet --info || true
           which dotnet || true
-
