@@ -11,6 +11,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Set custom install directory for .NET SDK
+        run: |
+          export DOTNET_INSTALL_DIR="/Users/runner/.dotnet/custom_sdk_path"
+          echo "Custom SDK path: $DOTNET_INSTALL_DIR"
+
       - name: Check current .NET info on macOS
         run: |
           dotnet --info || true
@@ -20,7 +25,9 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '6.0.x'  # Specify the desired .NET SDK version here
-          cache: false  # Disable caching
+          # cache: true
+        env:
+          DOTNET_INSTALL_DIR: ${{ env.DOTNET_INSTALL_DIR }}  # Pass the custom install directory
 
       - name: Check .NET info after setup on macOS
         run: |
