@@ -20,11 +20,7 @@ jobs:
         with:
           dotnet-version: '6.0'
           # cache: true  # Enable caching for NuGet packages
-
-      - name: Restore NuGet packages with locked mode
-        run: |
-          echo "Restoring NuGet packages..."
-          dotnet restore --locked-mode  # Restore packages in locked mode
+          run: dotnet restore --locked-mode
 
       - name: Check .NET info after setup
         run: |
