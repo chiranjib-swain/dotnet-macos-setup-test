@@ -20,7 +20,7 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '6.0.x'  # Specify the desired .NET SDK version here
-          cache: true
+          cache: false  # Disable caching
 
       - name: Check .NET info after setup on macOS
         run: |
