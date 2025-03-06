@@ -9,42 +9,20 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Check current .NET info on macOS
         run: |
           dotnet --info || true
           which dotnet || true
 
-      - name: Set up .NET SDK on macOS
+      - name: Set up .NET SDK on macOS using global.json
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '6.0'
+          global-json-file: './global.json'  # Ensure the path to global.json is correct
           cache: true
 
       - name: Check .NET info after setup on macOS
         run: |
           dotnet --info || true
           which dotnet || true
-
-  # ubuntu-experiment:
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #     - name: Checkout repository
-  #       uses: actions/checkout@v2
-
-  #     - name: Check current .NET info on Ubuntu
-  #       run: |
-  #         dotnet --info || true
-  #         which dotnet || true
-
-  #     - name: Set up .NET SDK on Ubuntu
-  #       uses: actions/setup-dotnet@v4
-  #       with:
-  #         dotnet-version: '6.0'
-
-  #     - name: Check .NET info after setup on Ubuntu
-  #       run: |
-  #         dotnet --info || true
-  #         which dotnet || true
