@@ -1,4 +1,4 @@
-name: .NET Setup on macOS
+name: .NET Setup on Multiple OS
 
 on: [push, pull_request]
 
@@ -7,7 +7,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-latest-large,macos-latest, macos-13]
+        os: [macos-latest, macos-13, ubuntu-latest, windows-latest]
 
     steps:
       - name: Checkout repository
