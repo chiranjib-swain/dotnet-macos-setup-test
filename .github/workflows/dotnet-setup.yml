@@ -1,40 +1,41 @@
-name: .NET Setup on Multiple OS
+name: Check and Install .NET SDK
 
 on: [push, pull_request]
 
 jobs:
-  experiment:
+  check-and-install-sdk:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-latest, macos-13, ubuntu-latest, windows-latest]
+        os: [ubuntu-latest, macos-14, windows-latest]
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Check current .NET info
+      - name: Check existing .NET SDKs before installation
         run: |
           dotnet --info || true
           which dotnet || true
 
-      - name: Set up .NET
+      - name: Clean existing .NET SDKs on Ubuntu or macOS
+        if: runner.os != 'Windows'
+        run: |
+          rm -rf /usr/local/share/dotnet
+          rm -rf ~/.dotnet
+
+      - name: Clean existing .NET SDKs on Windows
+        if: runner.os == 'Windows'
+        run: |
+          Remove-Item -Recurse -Force "C:\Program Files\dotnet"
+          Remove-Item -Recurse -Force "$env:USERPROFILE\.dotnet"
+
+      - name: Install .NET SDK
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '6.0'
 
-      - name: Clear .NET SDK cache
-        run: |
-          if [[ $RUNNER_OS == 'macOS' ]]; then
-            rm -rf /Users/runner/.dotnet
-          elif [[ $RUNNER_OS == 'Linux' ]]; then
-            rm -rf /home/runner/.dotnet
-          elif [[ $RUNNER_OS == 'Windows' ]]; then
-            Remove-Item -Recurse -Force C:\Program Files\dotnet
-          fi
-        shell: bash
-
-      - name: Check .NET info after setup
+      - name: Check existing .NET SDKs after installation
         run: |
           dotnet --info || true
           which dotnet || true
