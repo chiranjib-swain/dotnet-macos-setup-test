@@ -29,12 +29,12 @@ jobs:
         run: |
           try {
            Remove-Item "C:\Program Files\dotnet" -ErrorAction Stop
-           Remove-Item "$env:USERPROFILE\.dotnet" -ErrorAction Stop
+           # Remove-Item "$env:USERPROFILE\.dotnet" -ErrorAction Stop
                 }
                 catch {
                     Write-Output "Failed to delete some items, retrying with -Recurse and -Force"
                     Remove-Item -Recurse -Force "C:\Program Files\dotnet"
-                    Remove-Item -Recurse -Force "$env:USERPROFILE\.dotnet"
+                    # Remove-Item -Recurse -Force "$env:USERPROFILE\.dotnet"
                 }
 
       - name: Install .NET SDK
