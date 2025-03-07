@@ -28,7 +28,7 @@ jobs:
           if [[ $RUNNER_OS == 'macOS' ]]; then
             rm -rf /Users/runner/.dotnet
           elif [[ $RUNNER_OS == 'Linux' ]]; then
-            rm -rf /usr/lib/dotnet
+            rm -rf /home/runner/.dotnet
           elif [[ $RUNNER_OS == 'Windows' ]]; then
             Remove-Item -Recurse -Force C:\Program Files\dotnet
           fi
