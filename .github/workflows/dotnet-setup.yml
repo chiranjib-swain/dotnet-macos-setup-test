@@ -23,6 +23,16 @@ jobs:
         with:
           dotnet-version: '6.0'
 
+      - name: Clear .NET SDK cache
+        run: |
+          if [[ $RUNNER_OS == 'macOS' ]]; then
+            rm -rf /Users/runner/.dotnet
+          elif [[ $RUNNER_OS == 'Linux' ]]; then
+            rm -rf /home/runner/.dotnet
+          elif [[ $RUNNER_OS == 'Windows' ]]; then
+            rd /s /q C:\Users\runner\AppData\Local\Microsoft\dotnet
+          fi
+
       - name: Check .NET info after setup
         run: |
           dotnet --info || true
