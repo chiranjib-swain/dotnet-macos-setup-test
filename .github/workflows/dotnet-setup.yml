@@ -27,8 +27,8 @@ jobs:
       - name: Clean existing .NET SDKs on Windows
         if: runner.os == 'Windows'
         run: |
-          Remove-Item -Recurse -Force "C:\Program Files\dotnet"
-          Remove-Item -Recurse -Force "$env:USERPROFILE\.dotnet"
+          Remove-Item -Recurse  "C:\Program Files\dotnet"
+          Remove-Item -Recurse  "$env:USERPROFILE\.dotnet"
 
       - name: Install .NET SDK
         uses: actions/setup-dotnet@v4
