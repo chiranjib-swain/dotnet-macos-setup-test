@@ -20,7 +20,7 @@ jobs:
 
       - name: Create global.json to specify SDK version
         run: |
-          echo '{ "sdk": { "version": "6.0.x" } }' > global.json
+          echo '{ "sdk": { "version": "6.0.428" } }' > global.json
 
       - name: Uninstall default .NET SDKs on macOS
         if: matrix.os == 'macos-14' || matrix.os == 'macos-latest'
