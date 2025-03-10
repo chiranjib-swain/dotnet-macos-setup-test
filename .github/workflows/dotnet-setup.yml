@@ -7,7 +7,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-14, windows-latest]
+        os: [ubuntu-latest, macos-14]
 
     steps:
       - name: Checkout code
@@ -18,29 +18,22 @@ jobs:
           dotnet --info || true
           which dotnet || true
 
-      - name: Clean existing .NET SDKs on Ubuntu or macOS
-        if: runner.os != 'Windows'
+      - name: Use pre-installed .NET SDK if available
+        id: use-preinstalled-dotnet
         run: |
-          rm -rf /usr/local/share/dotnet
-          rm -rf ~/.dotnet
-
-      - name: Clean existing .NET SDKs on Windows
-        if: runner.os == 'Windows'
-        run: |
-          try {
-           Remove-Item "C:\Program Files\dotnet" -ErrorAction Stop
-           # Remove-Item "$env:USERPROFILE\.dotnet" -ErrorAction Stop
-                }
-                catch {
-                    Write-Output "Failed to delete some items, retrying with -Recurse and -Force"
-                    Remove-Item -Recurse -Force "C:\Program Files\dotnet"
-                    # Remove-Item -Recurse -Force "$env:USERPROFILE\.dotnet"
-                }
+          if dotnet --list-sdks | grep -q '^6.0\.'; then
+            echo "Using pre-installed .NET SDK 6.0"
+            echo "::set-output name=skip_install::true"
+          else
+            echo "Pre-installed .NET SDK 6.0 not found"
+            echo "::set-output name=skip_install::false"
+          fi
 
       - name: Install .NET SDK
-        uses: actions/setup-dotnet@v4
+        if: steps.use-preinstalled-dotnet.outputs.skip_install == 'false'
+        uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '6.0'
+          dotnet-version: '6.0.x'
 
       - name: Check existing .NET SDKs after installation
         run: |
