@@ -18,6 +18,10 @@ jobs:
           dotnet --info || true
           which dotnet || true
 
+      - name: Create global.json to specify SDK version
+        run: |
+          echo '{ "sdk": { "version": "6.0.x" } }' > global.json
+
       - name: Use pre-installed .NET SDK if available
         id: use-preinstalled-dotnet
         run: |
@@ -35,19 +39,13 @@ jobs:
         with:
           dotnet-version: '6.0.x'
 
-      - name: Create global.json to specify SDK version
-        run: |
-          echo '{ "sdk": { "version": "6.0.x" } }' > global.json
-
       - name: Ensure .NET SDK is in PATH
         run: |
           echo "Ensuring .NET SDK is in PATH"
           echo "/usr/local/share/dotnet" >> $GITHUB_PATH
           echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
+
+      - name: Verify correct .NET SDK version
+        run: |
           dotnet --version
           dotnet --info
-
-      - name: Check existing .NET SDKs after installation
-        run: |
-          dotnet --info || true
-          which dotnet || true
