@@ -25,9 +25,7 @@ jobs:
       - name: Set up .NET SDK (6.0 only)
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '6.0'
-          # This will ensure only the SDK for .NET 6 is installed and no unnecessary runtimes
-          install-runtime: false
+          dotnet-version: '6.0.x'  # Use a pattern to install the latest 6.0 SDK
 
       - name: Check .NET info after setup
         run: |
