@@ -33,16 +33,15 @@ jobs:
         if: steps.use-preinstalled-dotnet.outputs.skip_install == 'false'
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '6.0.x'
+          dotnet-version: '6.0'
 
-      - name: Set .NET SDK version globally
+      - name: Ensure .NET SDK is in PATH
         run: |
+          echo "Ensuring .NET SDK is in PATH"
+          echo "/usr/local/share/dotnet" >> $GITHUB_PATH
+          echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
           dotnet --version
           dotnet --info
-          sudo ln -sf /usr/local/share/dotnet/dotnet /usr/bin/dotnet
-          echo "Setting .NET SDK version to 6.0.x globally"
-          sudo dotnet --list-sdks
-          sudo dotnet --info
 
       - name: Check existing .NET SDKs after installation
         run: |
