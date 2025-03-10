@@ -7,7 +7,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-14]
+        os: [ubuntu-latest, macos-14, windows-latest]
 
     steps:
       - name: Checkout code
@@ -34,6 +34,15 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '6.0.x'
+
+      - name: Set .NET SDK version globally
+        run: |
+          dotnet --version
+          dotnet --info
+          sudo ln -sf /usr/local/share/dotnet/dotnet /usr/bin/dotnet
+          echo "Setting .NET SDK version to 6.0.x globally"
+          sudo dotnet --list-sdks
+          sudo dotnet --info
 
       - name: Check existing .NET SDKs after installation
         run: |
