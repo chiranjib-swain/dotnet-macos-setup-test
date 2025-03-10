@@ -20,7 +20,8 @@ jobs:
 
       - name: Create global.json to specify SDK version
         run: |
-          echo '{ "sdk": { "version": "6.0.428", "rollForward": "latestFeature", "allowPrerelease": false } }' > global.json
+          # echo '{ "sdk": { "version": "6.0.428", "rollForward": "latestFeature", "allowPrerelease": false } }' > global.json
+          echo '{ "sdk": { "version": "6.0.428" } }' > global.json
 
       - name: Set up .NET
         uses: actions/setup-dotnet@v4
