@@ -20,12 +20,14 @@ jobs:
 
       - name: Create global.json to specify SDK version
         run: |
-          echo '{ "sdk": { "version": "6.0.0","rollForward": "latestFeature" } }' > global.json
+          echo '{ "sdk": { "version": "6.0.0", "rollForward": "latestFeature" } }' > global.json
 
-      - name: Set up .NET SDK
+      - name: Set up .NET SDK (6.0 only)
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '6.0'
+          # This will ensure only the SDK for .NET 6 is installed and no unnecessary runtimes
+          install-runtime: false
 
       - name: Check .NET info after setup
         run: |
