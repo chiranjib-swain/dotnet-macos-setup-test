@@ -20,13 +20,18 @@ jobs:
 
       - name: Create global.json to specify SDK version
         run: |
-          # echo '{ "sdk": { "version": "6.0.428", "rollForward": "latestFeature", "allowPrerelease": false } }' > global.json
-          echo '{ "sdk": { "version": "6.0.428" } }' > global.json
+          echo '{ "sdk": { "version": "6.0.428", "rollForward": "latestFeature", "allowPrerelease": false } }' > global.json
 
       - name: Set up .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '6.0.428'
+
+      - name: Ensure .NET SDK is in PATH
+        run: |
+          echo "Ensuring .NET SDK is in PATH"
+          echo "/usr/local/share/dotnet" >> $GITHUB_PATH
+          echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
 
       - name: Check .NET info after setup
         run: |
