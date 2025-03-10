@@ -20,25 +20,12 @@ jobs:
 
       - name: Create global.json to specify SDK version
         run: |
-          echo '{ "sdk": { "version": "6.0.428" } }' > global.json
-
-      - name: Uninstall default .NET SDKs on macOS
-        if: matrix.os == 'macos-14' || matrix.os == 'macos-latest'
-        run: |
-          echo "Removing unwanted .NET SDK versions"
-          sudo rm -rf /usr/local/share/dotnet/shared/Microsoft.NETCore.App/8.*
-          sudo rm -rf /usr/local/share/dotnet/sdk/8.*
+          echo '{ "sdk": { "version": "6.0","rollForward": "latestFeature" } }' > global.json
 
       - name: Set up .NET SDK
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '6.0'
-
-      - name: Ensure .NET SDK is in PATH
-        run: |
-          echo "Ensuring .NET SDK is in PATH"
-          echo "/usr/local/share/dotnet" >> $GITHUB_PATH
-          echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
 
       - name: Check .NET info after setup
         run: |
