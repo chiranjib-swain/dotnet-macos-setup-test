@@ -47,23 +47,22 @@ jobs:
             host-matrix-output: ${{ steps.get-matrices.outputs.host-matrix-output }}
             version-matrix-output: ${{ steps.get-matrices.outputs.version-matrix-output }}
         steps:
-            - name: Checkout code
-              uses: actions/checkout@v2
-
-            - name: Create global.json
+            - name: check
               run: |
+                  dotnet --info
+                  which dotnet
+            - name: check
+              run: |
+                  dotnet --info
                   echo -e "\n======================\n"
                   echo "create new global.json"
                   dotnet new globaljson --sdk-version 6.0.0 --roll-forward latestFeature
                   cat global.json
                   echo -e "\n======================\n"
-
+                  dotnet --info
+                  which dotnet
             - name: Set up dotnet
               uses: actions/setup-dotnet@v4
               with:
-                  dotnet-version: '6.0.x'
-
-            - name: Check dotnet info
-              run: |
-                  dotnet --info
-                  which dotnet
+                  dotnet-version: '6.0'
+           
