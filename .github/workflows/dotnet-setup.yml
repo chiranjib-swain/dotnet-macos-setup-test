@@ -58,13 +58,14 @@ jobs:
                   echo "create new global.json"
                   dotnet new globaljson --sdk-version 6.0.0 --roll-forward latestFeature
                   cat global.json
-            - name: post check
-              run: |
-                  dotnet --info
-                  which dotnet
+            
                 
             - name: Set up dotnet
               uses: actions/setup-dotnet@v4
               with:
                   dotnet-version: '6.0'
+            - name: post check
+              run: |
+                  dotnet --info
+                  which dotnet
            
