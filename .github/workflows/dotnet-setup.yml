@@ -47,20 +47,22 @@ jobs:
             host-matrix-output: ${{ steps.get-matrices.outputs.host-matrix-output }}
             version-matrix-output: ${{ steps.get-matrices.outputs.version-matrix-output }}
         steps:
-            - name: check
+            - name: pre check
               run: |
                   dotnet --info
                   which dotnet
-            - name: check
+            - name: Create global json
               run: |
                   dotnet --info
                   echo -e "\n======================\n"
                   echo "create new global.json"
                   dotnet new globaljson --sdk-version 6.0.0 --roll-forward latestFeature
                   cat global.json
-                  echo -e "\n======================\n"
+            - name: post check
+              run: |
                   dotnet --info
                   which dotnet
+                
             - name: Set up dotnet
               uses: actions/setup-dotnet@v4
               with:
