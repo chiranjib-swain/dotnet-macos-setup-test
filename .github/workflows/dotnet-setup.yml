@@ -1,33 +1,67 @@
-name: .NET Setup on Multiple OS
+# name: .NET Setup on Multiple OS
 
-on: [push, pull_request]
+# on: [push, pull_request]
+
+# jobs:
+#   experiment:
+#     runs-on: ${{ matrix.os }}
+#     strategy:
+#       matrix:
+#         os: [windows-latest, ubuntu-latest, macos-14, macos-latest]
+
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v2
+
+#       - name: Check current .NET info
+#         run: |
+#           dotnet --info || true
+#           which dotnet || true
+
+#       - name: Create global.json to specify SDK version
+#         run: |
+#           echo '{ "sdk": { "version": "6.0.100", "rollForward": "latestFeature" } }' > global.json
+
+#       - name: Set up .NET SDK
+#         uses: actions/setup-dotnet@v4
+#         with:
+#           dotnet-version: '6.0.x'   # This ensures the latest .NET 6.x SDK is installed
+
+#       - name: Check .NET info after setup
+#         run: |
+#           dotnet --info || true
+#           which dotnet || true
+name: C# tests
+
+on:
+    push:
 
 jobs:
-  experiment:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [windows-latest, ubuntu-latest, macos-14, macos-latest]
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Check current .NET info
-        run: |
-          dotnet --info || true
-          which dotnet || true
-
-      - name: Create global.json to specify SDK version
-        run: |
-          echo '{ "sdk": { "version": "6.0.100", "rollForward": "latestFeature" } }' > global.json
-
-      - name: Set up .NET SDK
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '6.0.x'   # This ensures the latest .NET 6.x SDK is installed
-
-      - name: Check .NET info after setup
-        run: |
-          dotnet --info || true
-          which dotnet || true
+    experiment:
+        strategy:
+            matrix:
+                os: [ubuntu-latest, macos-14]
+        runs-on: ${{ matrix.os }}
+        outputs:
+            engine-matrix-output: ${{ steps.get-matrices.outputs.engine-matrix-output }}
+            host-matrix-output: ${{ steps.get-matrices.outputs.host-matrix-output }}
+            version-matrix-output: ${{ steps.get-matrices.outputs.version-matrix-output }}
+        steps:
+            - name: check
+              run: |
+                  dotnet --info
+                  which dotnet
+            - name: Set up dotnet
+              uses: actions/setup-dotnet@v4
+              with:
+                  dotnet-version: '6.0'
+            - name: check
+              run: |
+                  dotnet --info
+                  echo -e "\n======================\n"
+                  echo "create new global.json"
+                  dotnet new globaljson --sdk-version 6.0.0 --roll-forward latestFeature
+                  cat global.json
+                  echo -e "\n======================\n"
+                  dotnet --info
+                  which dotnet
