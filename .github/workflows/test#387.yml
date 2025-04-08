@@ -1,4 +1,4 @@
-name: Reproduce setup-dotnet v3 Issue 387
+name: Reproduce and Resolve setup-dotnet Issue 387
 
 on:
   workflow_dispatch:
@@ -8,45 +8,43 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-
-    - name: Setup .NET 6
-      uses: actions/setup-dotnet@v3
+    # Step 2: Using setup-dotnet@v4 to resolve the issue
+    - name: Setup .NET 6 with v4
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '6.0.x'
 
-    - name: Display .NET 6 version
+    - name: Display .NET 6 version with v4
       run: dotnet --version
 
-    - name: Create .NET 6 project
-      run: dotnet new console -n TestProject6
+    - name: Create .NET 6 project with v4
+      run: dotnet new console -n TestProject6_v4
 
-    - name: Restore dependencies for .NET 6
-      run: dotnet restore TestProject6
+    - name: Restore dependencies for .NET 6 with v4
+      run: dotnet restore TestProject6_v4
 
-    - name: Build with .NET 6
-      run: dotnet build TestProject6 --no-restore
+    - name: Build with .NET 6 with v4
+      run: dotnet build TestProject6_v4 --no-restore
 
-    - name: Test with .NET 6
-      run: dotnet test TestProject6 --no-build --verbosity normal
+    - name: Test with .NET 6 with v4
+      run: dotnet test TestProject6_v4 --no-build --verbosity normal
 
-    - name: Setup .NET 7
-      uses: actions/setup-dotnet@v3
+    - name: Setup .NET 7 with v4
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '7.0.x'
 
-    - name: Display .NET 7 version
+    - name: Display .NET 7 version with v4
       run: dotnet --version
 
-    - name: Create .NET 7 project
-      run: dotnet new console -n TestProject7
+    - name: Create .NET 7 project with v4
+      run: dotnet new console -n TestProject7_v4
 
-    - name: Restore dependencies for .NET 7
-      run: dotnet restore TestProject7
+    - name: Restore dependencies for .NET 7 with v4
+      run: dotnet restore TestProject7_v4
 
-    - name: Build with .NET 7
-      run: dotnet build TestProject7 --no-restore
+    - name: Build with .NET 7 with v4
+      run: dotnet build TestProject7_v4 --no-restore
 
-    - name: Test with .NET 7
-      run: dotnet test TestProject7 --no-build --verbosity normal
+    - name: Test with .NET 7 with v4
+      run: dotnet test TestProject7_v4 --no-build --verbosity normal
