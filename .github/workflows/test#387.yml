@@ -19,14 +19,17 @@ jobs:
     - name: Display .NET 6 version
       run: dotnet --version
 
+    - name: Create .NET 6 project
+      run: dotnet new console -n TestProject6
+
     - name: Restore dependencies for .NET 6
-      run: dotnet restore
+      run: dotnet restore TestProject6
 
     - name: Build with .NET 6
-      run: dotnet build --no-restore
+      run: dotnet build TestProject6 --no-restore
 
     - name: Test with .NET 6
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test TestProject6 --no-build --verbosity normal
 
     - name: Setup .NET 7
       uses: actions/setup-dotnet@v3
@@ -36,11 +39,14 @@ jobs:
     - name: Display .NET 7 version
       run: dotnet --version
 
+    - name: Create .NET 7 project
+      run: dotnet new console -n TestProject7
+
     - name: Restore dependencies for .NET 7
-      run: dotnet restore
+      run: dotnet restore TestProject7
 
     - name: Build with .NET 7
-      run: dotnet build --no-restore
+      run: dotnet build TestProject7 --no-restore
 
     - name: Test with .NET 7
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test TestProject7 --no-build --verbosity normal
